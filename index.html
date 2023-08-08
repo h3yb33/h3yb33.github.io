@@ -4,19 +4,168 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Bootstrap demo</title>
-    <link rel="stylesheet" href="<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <!-- <link rel="stylesheet" href="<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous"> -->
     <link rel="stylesheet" href="index.css">
-    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous"> -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
   </head>
   <body>
     
-    <div class="container">
-      <header>
-        <h1>QUIZ COMPETITION</h1>
-        <div>
-          <h3>Your total score is <span>0%</span></h3>
+    <div class="">
+      <header class="text-center">
+        <h1 class="text-primary py-5 display-5">QUIZ COMPETITION</h1>
+        <div class="scoreDisplay bg-light py-5 text-primary d-none">
+          <h3>Your total score is  <span class="display-5 d-block py-5">0%</span></h3>
+        </div>
+        <div class="name my-3 container">
+          <input class="form-control my-3 mx-5" type="text" name="name" id="name" placeholder="Please enter your name to begin the quiz">
+          <button class="enter btn btn-primary">Continue</button>
+        </div>
+        <div class="alert alert-success d-none great">
+          A simple success alert—check it out!
+        </div>
+        <div class="alert alert-warning d-none retry">
+          A simple warning alert—check it out!
+        </div>
+        <div class="alert alert-danger d-none fail">
+          A simple danger alert—check it out!
         </div>
       </header>
+
+      <form class="quizContainer bg-primary px-5 py-5 text-light d-none">
+        <h2>Questions...</h2>
+
+        <p>INSTRUCTION : <em>Answer <Strong>all</Strong> Questions</em></p>
+
+        <!--Question 1-->
+        <div class="my-4">
+          <p class="display-6">1.What type of fuel is commonly used in conventional cars?</p>
+          <div>
+            <input type="radio" name="q1" value="A">
+            <label>Diesel</label>
+          </div>
+          <div>
+            <input type="radio" name="q1" value="B">
+            <label>Petrol</label>
+          </div>
+        </div>
+
+        <!--Question 2-->
+
+        <div class="my-4">
+          <p class="display-6">2. Which part of the car is responsible for reducing engine noise and vibrations?</p>
+          <div>
+            <input type="radio" name="q2" value="A">
+            <label>Exhaust pipe</label>
+          </div>
+          <div>
+            <input type="radio" name="q2" value="B">
+            <label>Muffler</label>
+          </div>
+        </div>
+
+        <!--Question 3-->
+
+        <div class="my-4 ">
+          <p class="display-6">3. What does RPM stand for in relation to a car's engine?</p>
+          <div>
+            <input type="radio" name="q3" value="A">
+            <label>Revolutions Per Mile</label>
+          </div>
+          <div>
+            <input type="radio" name="q3" value="B">
+            <label>Revolutions Per Minute</label>
+          </div>
+        </div>
+
+        <!--Question 4-->
+
+        <div class="my-4 ">
+          <p class="display-6">4. Which part of the car is used to start the engine?</p>
+          <div>
+            <input type="radio" name="q4" value="A">
+            <label>Ignition key</label>
+          </div>
+          <div>
+            <input type="radio" name="q4" value="B">
+            <label>Gear shift</label>
+          </div>
+        </div>
+
+        <!--Submit button -->
+        <button class="btn btn-light submit my-5">Submit</button>
+      </form>
     </div>
+
+    <script>
+	const submit = document.querySelector('.submit');
+const correctAnswers = ['B', 'B', 'B', 'A'];
+const form = document.querySelector('form');
+const scoreDisplay = document.querySelector('.scoreDisplay');
+const nameCont = document.querySelector('.name');
+const enter = document.querySelector('.enter');
+const userName = document.getElementById('name');
+const great = document.querySelector('.great');
+const fail = document.querySelector('.fail');
+const retry = document.querySelector('.retry');
+
+
+enter.addEventListener('click', e => {
+
+    e.preventDefault();
+
+    nameCont.classList.add('d-none');
+    form.classList.remove('d-none');
+
+})
+
+
+
+
+submit.addEventListener('click', e => {
+    e.preventDefault();
+
+    let score = 0;
+
+    let userAnswers = [form.q1.value, form.q2.value, form.q3.value, form.q4.value,];
+    
+    userAnswers.forEach((answer, index) => {
+
+        if(answer === correctAnswers[index]) {
+            score += 25;
+        }
+    });
+
+    scrollTo(0,0);
+
+    let counter = 0;
+
+    const animate = setInterval(() => {
+
+        scoreDisplay.querySelector('span').textContent = `${counter}%`;
+
+        if(counter === score) {
+            clearInterval(animate);
+        } else {
+            counter++;
+        }
+    }, 10)
+
+    scoreDisplay.classList.remove('d-none');
+
+    if(score > 75) {
+        great.classList.remove('d-none');
+        great.textContent = `Weldone ${userName.value} you know about cars.`
+    } else if(score > 25) {
+        retry.classList.remove('d-none');
+        retry.textContent = `Weldone ${userName.value} you tried.`
+    } else if(score < 25) {
+        fail.classList.remove('d-none');
+        fail.textContent = `Sorry ${userName.value} you failed.`
+    } 
+    
+    
+});
+
+	</script>
   </body>
 </html>
